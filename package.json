@@ -1,0 +1,36 @@
+{
+  "name": "file-storage",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier --write \"src/**/*.{json,js,jsx,ts,tsx,css,scss}\""
+  },
+  "dependencies": {
+    "@dfinity/agent": "^2.0.0",
+    "@dfinity/assets": "^2.0.0",
+    "@dfinity/auth-client": "^2.0.0",
+    "@dfinity/candid": "^2.0.0",
+    "@dfinity/principal": "^2.0.0",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fontsource/roboto": "^5.0.14",
+    "@mui/icons-material": "^6.0.1",
+    "@mui/material": "^6.0.1",
+    "next": "14.2.7",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.7",
+    "prettier": "^3.3.3",
+    "typescript": "^5"
+  }
+}
