@@ -7,9 +7,8 @@ import { Navigation } from "@storage/src/components/Navigation";
 
 // TODO:
 // 1. Limit only accept tar.gx
-// 2. Limit size to 1GB
-// 3. Auto delete file
-// 4. Forbid logout when still loading
+// 2. Auto delete file
+// 3. Forbid logout when still loading
 
 export default function Home() {
   return (

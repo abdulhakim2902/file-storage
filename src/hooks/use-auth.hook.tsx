@@ -45,22 +45,25 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     const identity = client.getIdentity();
     const principal = identity.getPrincipal();
 
-    const agent = HttpAgent.createSync({
-      host: isLocal
-        ? `http://127.0.0.1:${window.location.port}`
-        : "https://ic0.app",
-      identity,
-    });
+    if (isLogin) {
+      const agent = HttpAgent.createSync({
+        host: isLocal
+          ? `http://127.0.0.1:${window.location.port}`
+          : "https://ic0.app",
+        identity,
+      });
 
-    if (isLocal) {
-      await agent.fetchRootKey();
+      if (isLocal) {
+        await agent.fetchRootKey();
+      }
+
+      const assetManager = new AssetManager({ canisterId, agent });
+
+      setAssetManager(assetManager);
     }
-
-    const assetManager = new AssetManager({ canisterId, agent });
 
     console.log(principal.toString());
 
-    setAssetManager(assetManager);
     setAuthClient(client);
     setIdentity(identity);
     setIsLogin(isLogin);

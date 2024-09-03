@@ -21,6 +21,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import ClearIcon from "@mui/icons-material/Clear";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
+import { useSnackbar } from "notistack";
 
 type UploadData = {
   key: string;
@@ -30,6 +31,7 @@ type UploadData = {
 
 export const DownloadFile = () => {
   const { isLogin, identity, assetManager } = useAuth();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [file, setFile] = useState<File>();
   const [progress, setProgress] = useState(0);
@@ -52,7 +54,8 @@ export const DownloadFile = () => {
                 Number(b.encodings[0].modified - a.encodings[0].modified),
               )
               .map(({ key }) => {
-                const [timestamp, ...filename] = key.split("-");
+                const fileName = key.split("/").slice(-1)[0];
+                const [timestamp, ...filename] = fileName.split("-");
 
                 return {
                   key,
@@ -61,11 +64,17 @@ export const DownloadFile = () => {
                 };
               }),
           )
-          .then(setUploads);
+          .then(setUploads)
+          .catch(err => {
+            enqueueSnackbar(err.message, {
+              variant: "error",            
+            });
+          });
       }
     } else {
       setUploads([]);
     }
+    /* eslint-disable react-hooks/exhaustive-deps*/
   }, [assetManager, isLogin, identity]);
 
   const addFile = () => {
@@ -76,6 +85,17 @@ export const DownloadFile = () => {
     input.click();
     input.onchange = () => {
       if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        if (file.size > Math.pow(10, 9)) {
+          return enqueueSnackbar("Max size of 1 GB", {
+            variant: "error",            
+          });
+        }
+
+        // if (file.type) {
+        //   // throw err
+        // }
+
         setFile(input.files[0]);
       }
     };
@@ -105,8 +125,10 @@ export const DownloadFile = () => {
           { key, filename: file.name, timestamp },
           ...prev,
         ]);
-      } catch (err) {
-        console.log(err);
+      } catch (err: any) {
+        enqueueSnackbar(err.message, {
+          variant: "error",            
+        });
       } finally {
         setIsUploading(false);
         setFile(undefined);
@@ -187,7 +209,7 @@ export const DownloadFile = () => {
                       <TableCell align="center">{index + 1}</TableCell>
                       <TableCell align="center">{data.filename}</TableCell>
                       <TableCell align="center">
-                        {new Date(data.timestamp).toISOString()}
+                        {new Date(data.timestamp).toString()}
                       </TableCell>
                       <TableCell align="center">
                         <IconButton onClick={() => downloadFile(data)}>

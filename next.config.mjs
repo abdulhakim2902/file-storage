@@ -10,7 +10,7 @@ const nextConfig = {
     CANISTER_ID_INTERNET_IDENTITY: process.env.CANISTER_ID_INTERNET_IDENTITY,
     CANISTER_ID: process.env.CANISTER_ID,
   },
-  output: 'export',
+  output: "export",
 };
 
 export default nextConfig;
